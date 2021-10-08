@@ -20,7 +20,7 @@ Queue* CreareQueue(int size) {
 
 	queue->queue = (Element**)malloc(sizeof(Element*) * size);
 	for (int i = 0; i < size; i++) {
-		queue->queue[i] = (Element*)malloc(sizeof(Element) * size);
+		queue->queue[i] = (Element*)malloc(sizeof(Element) * 256);
 	}
 	if (queue->queue == NULL) {
 		printf("error");
@@ -38,7 +38,7 @@ void Enqueue(Queue* queue, Element* data) {
 		return;
 	}
 	else {//general
-		strcpy(queue->queue[(queue->rear++) % queue->size], data);
+		strcpy(queue->queue[(++queue->rear) % queue->size], data);
 	}
 }
 
@@ -48,7 +48,7 @@ Element* Dequeue(Queue* queue) {
 		return NULL;
 	}
 	else {//general
-		strcpy(data, queue->queue[(queue->front++) % queue->size]);
+		strcpy(data, queue->queue[(++queue->front) % queue->size]);
 	}
 	return data;
 }
@@ -77,21 +77,21 @@ void Destoyqueue(Queue* queue, int size) {
 
 void show(Queue* queue, int size) {
 	if (queue->front == queue->rear) return;
-	else if (queue->front > queue->rear) {
+	else if (queue->front < queue->rear) {
 		int num = 1;
-		for (int i = queue->front; i < queue->rear; i++) {
+		for (int i = queue->front + 1; i <= queue->rear; i++) {
 			printf("%s%d, ", queue->queue[i], num);
 			num++;
 		}
 		printf("\b\b");
 	}
-	else if (queue->front < queue->rear) {
+	else if (queue->front > queue->rear) {
 		int num = 1;
-		for (int i = queue->front; i < queue->rear; i++) {
+		for (int i = queue->front + 1; i < size; i++) {
 			printf("%s%d, ", queue->queue[i], num);
 			num++;
 		}
-		for (int i = queue->rear; i < queue->front; i++) {
+		for (int i = 0; i <= queue->rear; i++) {
 			printf("%s%d, ", queue->queue[i], num);
 			num++;
 		}
