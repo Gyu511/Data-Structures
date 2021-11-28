@@ -53,10 +53,10 @@ void Quick(int* arr, int left, int right) {
 	int i = left + 1;
 	int j = right;
 
-	while (i < j) {
+	while (i <= j) {
 		while (arr[i] <= arr[pivot] && i <= right) i++;
 		while (arr[j] >= arr[pivot] && j > left) j--;
-		if (i >= j) {
+		if (i > j) {
 			SWAP(arr[j], arr[pivot]);
 		}
 		else {
