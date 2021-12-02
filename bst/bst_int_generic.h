@@ -19,7 +19,7 @@ int comp(void* argu1, void* argu2) {
 	return (*(int*)argu1 - *(int*)argu2);
 }
 
-Tree* CreateTree(void** data) {
+Tree* CreateTree(void* data) {
 	Tree* tree = (Tree*)malloc(sizeof(Tree));
 	if (tree == NULL) return NULL;
 
@@ -30,7 +30,7 @@ Tree* CreateTree(void** data) {
 	}
 	tree->root = node;
 	tree->compare = comp;
-	node->data = *data;
+	node->data = data;
 	//printf("%d\n", *(int*)node->data);
 	node->left = node->right = NULL;
 
@@ -53,15 +53,15 @@ TreeNode* SearchBST(TreeNode* root, void* key) {
 		return NULL;
 	}
 
-	if (comp(&root->data, key) > 0) return SearchBST(root->left, key);
-	else if (comp(&root->data, key) < 0) return SearchBST(root->right, key);
+	if (comp(root->data, key) > 0) return SearchBST(root->left, key);
+	else if (comp(root->data, key) < 0) return SearchBST(root->right, key);
 	else return root;
 }
 
 TreeNode* _addBST(TreeNode* root, TreeNode* newNode) {
 	if (root == NULL) return newNode;
 
-	if (comp(&root->data, &newNode->data) > 0) {
+	if (comp(root->data, newNode->data) > 0) {
 		root->left = _addBST(root->left, newNode);
 	}
 	else {
@@ -76,10 +76,10 @@ TreeNode* _deleteBST(TreeNode* root, void* data) {
 		return NULL;
 	}
 
-	if (comp(&root->data, data) > 0) {
+	if (comp(root->data, data) > 0) {
 		root->left = _deleteBST(root->left, data);
 	}
-	else if (comp(&root->data, data) < 0) {
+	else if (comp(root->data, data) < 0) {
 		root->right = _deleteBST(root->right, data);
 	}
 	else {//delete
@@ -103,13 +103,13 @@ TreeNode* _deleteBST(TreeNode* root, void* data) {
 	return root;
 }
 
-void InsertNode(Tree* tree, void** data) {
+void InsertNode(Tree* tree, void* data) {
 	if (tree == NULL) return;
 
 	TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
 	if (node == NULL) return;
 
-	node->data = *data;
+	node->data = data;
 	node->left = node->right = NULL;
 	_addBST(tree->root, node);
 }
@@ -131,7 +131,7 @@ void DestroyTree(TreeNode* root) {
 void Preorder(TreeNode* root) {
 	if (root == NULL) return;
 
-	printf("%d ", (int*)root->data);
+	printf("%d ", *(int*)root->data);
 	Preorder(root->left);
 	Preorder(root->right);
 }
@@ -140,7 +140,7 @@ void Inorder(TreeNode* root) {
 	if (root == NULL) return;
 
 	Inorder(root->left);
-	printf("%d ", (int*)root->data);
+	printf("%d ", *(int*)root->data);
 	Inorder(root->right);
 }
 
@@ -149,5 +149,5 @@ void Postorder(TreeNode* root) {
 
 	Postorder(root->left);
 	Postorder(root->right);
-	printf("%d ", (int*)root->data);
+	printf("%d ", *(int*)root->data);
 }
