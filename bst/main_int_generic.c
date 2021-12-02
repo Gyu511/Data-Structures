@@ -42,14 +42,14 @@ int main(void) {
 			break;
 		}
 			  node = FindSmallestBST(tree->root);
-			  printf("%d\n", (int*)node->data);
+			  printf("%d\n", *(int*)node->data);
 			  break;
 		case 4:if (i == 0) {
 			printf("empty\n");
 			break;
 		}
 			  node = FindLargestBST(tree->root);
-			  printf("%d\n", (int*)node->data);
+			  printf("%d\n", *(int*)node->data);
 			  break;
 		case 5: Inorder(tree->root);
 			printf("\n");
