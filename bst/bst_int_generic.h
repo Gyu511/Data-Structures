@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#define SWAP(x,y){void* temp;temp=x;x=y;y=temp;}
 
 typedef struct TreeNode {
 	void* data;
@@ -30,6 +31,7 @@ Tree* CreateTree(void** data) {
 	tree->root = node;
 	tree->compare = comp;
 	node->data = *data;
+	//printf("%d\n", *(int*)node->data);
 	node->left = node->right = NULL;
 
 	return tree;
@@ -94,8 +96,8 @@ TreeNode* _deleteBST(TreeNode* root, void* data) {
 		}
 		else {
 			for (del = root->left; del->right != NULL; del = del->right);
-			root->data = del->data;
-			free(del);
+			SWAP(root->data, del->data);
+			root->left = _deleteBST(root->left, data);
 		}
 	}
 	return root;
